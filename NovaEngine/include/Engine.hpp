@@ -6,6 +6,6 @@ namespace NovaEngine
 	API_CLASS(Engine)
 	{
 	public:
-		Engine();
+		Engine(const char* cwd);
 	};
 }

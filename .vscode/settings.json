@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"bochsrc": "plaintext",
+		"*.ld": "linkerscript",
+		"typeinfo": "cpp"
+	}
+}
