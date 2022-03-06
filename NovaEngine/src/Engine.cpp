@@ -7,17 +7,17 @@ NovaEngine::Engine::Engine(const char* cwd)
 {
     using namespace v8;
 
-	v8::V8::InitializeICUDefaultLocation(cwd);
-  	v8::V8::InitializeExternalStartupData(cwd);
+	printf("%s\n", cwd);
 	
-    std::unique_ptr<v8::Platform> platform = v8::platform::NewDefaultPlatform();
+    std::unique_ptr<v8::Platform> platform = v8::platform::NewDefaultPlatform(1);
     v8::V8::InitializePlatform(platform.get());
     v8::V8::Initialize();
     
 	// Create a new Isolate and make it the current one.
     v8::Isolate::CreateParams create_params;
-    create_params.array_buffer_allocator =
-        v8::ArrayBuffer::Allocator::NewDefaultAllocator();
+    
+	create_params.array_buffer_allocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator();
+
     v8::Isolate* isolate = v8::Isolate::New(create_params);
     {
         v8::Isolate::Scope isolate_scope(isolate);
@@ -35,9 +35,11 @@ NovaEngine::Engine::Engine(const char* cwd)
         v8::Local<v8::Value> result = script->Run(context).ToLocalChecked();
         // Convert the result to an UTF8 string and print it.
         v8::String::Utf8Value utf8(isolate, result);
-		printf("%s", *utf8);
-        // MessageBoxA(NULL, *utf8, *utf8, MB_OK);
-    }
+		// printf("%s", *utf8);
+		#ifdef _WIN32
+    	MessageBoxA(NULL, *utf8, *utf8, MB_OK);
+		#endif
+	}
 
     // Dispose the isolate and tear down V8.
     isolate->Dispose();

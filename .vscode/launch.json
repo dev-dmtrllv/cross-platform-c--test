@@ -13,7 +13,7 @@
 			"stopAtEntry": false,
 			"cwd": "${workspaceRoot}",
 			"environment": [],
-			"console": "externalTerminal",
+			"console": "integratedTerminal",
 			"preLaunchTask": "win-build-debug-x64"
 		},
 		{
@@ -25,8 +25,32 @@
 			"stopAtEntry": false,
 			"cwd": "${workspaceRoot}",
 			"environment": [],
-			"console": "externalTerminal",
+			"console": "integratedTerminal",
 			"preLaunchTask": "win-build-debug-x86"
+		},
+		{
+			"name": "(Windows) Release (x64)",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "x64/Release/TestGame.exe",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceRoot}",
+			"environment": [],
+			"console": "integratedTerminal",
+			"preLaunchTask": "win-build-release-x64"
+		},
+		{
+			"name": "(Windows) Release (x86)",
+			"type": "cppvsdbg",
+			"request": "launch",
+			"program": "Release/TestGame.exe",
+			"args": [],
+			"stopAtEntry": false,
+			"cwd": "${workspaceRoot}",
+			"environment": [],
+			"console": "integratedTerminal",
+			"preLaunchTask": "win-build-release-x86"
 		}
 	]
 }

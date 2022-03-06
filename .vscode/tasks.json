@@ -36,6 +36,40 @@
 				"reveal": "silent"
 			},
 			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "win-build-release-x64",
+			"type": "shell",
+			"command": "msbuild",
+			"args": [
+				"/p:GenerateFullPaths=true",
+				"/t:build",
+				"/p:Configuration=Release",
+				"/p:Platform=x64",
+				"/consoleloggerparameters:NoSummary"
+			],
+			"group": "build",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": "$msCompile"
+		},
+		{
+			"label": "win-build-release-x86",
+			"type": "shell",
+			"command": "msbuild",
+			"args": [
+				"/p:GenerateFullPaths=true",
+				"/t:build",
+				"/p:Configuration=Release",
+				"/p:Platform=x86",
+				"/consoleloggerparameters:NoSummary"
+			],
+			"group": "build",
+			"presentation": {
+				"reveal": "silent"
+			},
+			"problemMatcher": "$msCompile"
 		}
 	]
 }
