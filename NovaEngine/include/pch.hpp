@@ -5,6 +5,7 @@
 
 #	define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 #	include <windows.h>
+#	include <io.h>
 
 #	ifdef NOVAENGINE_EXPORTS
 
@@ -28,7 +29,6 @@
 
 #	define API extern "C"
 #	define API_CLASS(className) extern "C" class className
-
 #endif // END ALL EXCEPT WINDOWS
 
 
@@ -38,7 +38,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <fcntl.h>
-#include <io.h>
 #include <iostream>
 #include <fstream>
 

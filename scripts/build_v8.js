@@ -156,7 +156,8 @@ const getV8OutPath = (args) => `out.gn/${String(args.target_cpu).replace(/\"/g, 
 
 const buildV8 = async (outPath, args) =>
 {
-	const buildPath = path.resolve(paths.v8Src, outPath, "obj", "v8_monolith.lib");
+	const libName = os.platform() == "win32" ? "v8_monolith.lib" : "libv8_monolith.a";
+	const buildPath = path.resolve(paths.v8Src, outPath, "obj", libName);
 	if (!fs.existsSync(buildPath))
 	{
 		let argStr = "";
@@ -170,8 +171,8 @@ const buildV8 = async (outPath, args) =>
 		await run("ninja", ["-C", outPath, args.v8_monolithic ? "v8_monolith" : V8], paths.v8Src);
 	}
 
-	LOG(`Copying ${path.resolve(paths.v8Src, outPath, "obj", "v8_monolith.lib")}...`);
-	const copyPath = resolve(paths.depLibs, os.platform(), args.target_cpu.replace(/"/g, ""), args.is_debug ? "Debug" : "Release", "v8_monolith.lib");
+	LOG(`Copying ${path.resolve(paths.v8Src, outPath, "obj", libName)}...`);
+	const copyPath = resolve(paths.depLibs, os.platform(), args.target_cpu.replace(/"/g, ""), args.is_debug ? "Debug" : "Release", libName);
 
 	if (fs.existsSync(copyPath))
 		fs.unlinkSync(copyPath);
@@ -261,15 +262,19 @@ execFn(async () =>
 		// Release build
 		args.is_debug = false;
 		await buildV8(getV8OutPath(args), args);
-		// X86
-		args.target_cpu = `"x86"`;
-		args.v8_target_cpu = `"x86"`;
-		// Debug build
-		args.is_debug = true;
-		await buildV8(getV8OutPath(args), args);
-		// Release build
-		args.is_debug = false;
-		await buildV8(getV8OutPath(args), args);
+
+		if (os.platform() !== "linux") // Ubuntu 20.04 wont build x86 version for some reason...
+		{
+			// X86
+			args.target_cpu = `"x86"`;
+			args.v8_target_cpu = `"x86"`;
+			// Debug build
+			args.is_debug = true;
+			await buildV8(getV8OutPath(args), args);
+			// Release build
+			args.is_debug = false;
+			await buildV8(getV8OutPath(args), args);
+		}
 	}
 	else
 	{

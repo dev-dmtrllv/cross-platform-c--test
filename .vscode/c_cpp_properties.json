@@ -5,7 +5,8 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/NovaEngine/include",
-                "${workspaceFolder}/TestGame/include"
+                "${workspaceFolder}/TestGame/include",
+				"${workspaceFolder}/packages/includes/v8"
             ],
             "defines": [
 				"_WIN32",
@@ -26,7 +27,7 @@
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/NovaEngine/include",
                 "${workspaceFolder}/TestGame/include",
-				"~/src/v8/v8/include/**"
+				"${workspaceFolder}/packages/includes/v8"
             ],
             "defines": [
                 "_DEBUG",
