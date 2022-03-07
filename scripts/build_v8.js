@@ -1,10 +1,9 @@
 const fs = require("fs");
 const path = require("path");
-const { spawn, exec } = require("child_process");
+const { exec } = require("child_process");
 const { createInterface } = require("readline");
 const os = require("os");
 const https = require("https");
-const unzip = require("unzipper");
 
 const THIRD_PARTY = "third_party";
 const ROOT_DIR = path.resolve(__dirname, "..");
@@ -80,10 +79,7 @@ const run = (cmd, args, cwd = paths.thirdParty) => new Promise((res, rej) =>
 
 	console.log(`\nrunning command: ${cmd}\nwith args: ${args.join(" ")}\nin dir: ${cwd}\n`);
 
-	if (os.platform() == "win32")
-		p = exec(`${cmd} ${args.join(" ")}`, { cwd, env: process.env });
-	else
-		p = spawn(cmd, args, { cwd, env: process.env });
+	p = exec(`${cmd} ${args.join(" ")}`, { cwd, env: process.env });
 
 	p.stdout.pipe(process.stdout);
 	p.stdin.pipe(process.stdin);
@@ -116,7 +112,7 @@ const downloadDepotTools = () => new Promise((res, rej) =>
 	});
 
 	req.on("close", () => res(p));
-	req.on("error", rej);
+	req.on("error", (e) => { console.log(e); process.exit(0); });
 });
 
 const unzipDepotTools = (zipPath) => new Promise((res, rej) => 
@@ -127,7 +123,8 @@ const unzipDepotTools = (zipPath) => new Promise((res, rej) =>
 		fs.unlinkSync(zipPath);
 		res();
 	});
-	s.on("error", rej)
+	s.on("error", rej);
+	const unzip = require("unzipper");
 	s.pipe(unzip.Extract({ path: paths.depot_tools }));
 });
 
@@ -160,14 +157,14 @@ const getV8OutPath = (args) => `out.gn/${String(args.target_cpu).replace(/\"/g, 
 const buildV8 = async (outPath, args) =>
 {
 	const buildPath = path.resolve(paths.v8Src, outPath, "obj", "v8_monolith.lib");
-	if(!fs.existsSync(buildPath))
+	if (!fs.existsSync(buildPath))
 	{
 		let argStr = "";
 		for (const k in args)
-		argStr += `${k}=${args[k]} `;
-		
+			argStr += `${k}=${args[k]} `;
+
 		argStr = argStr.trim().replace(/\"/g, "\\\"");
-		
+
 		LOG("Generating compilation arguments");
 		await run("gn", ["gen", outPath, `--args="${argStr}"`], paths.v8Src);
 		await run("ninja", ["-C", outPath, args.v8_monolithic ? "v8_monolith" : V8], paths.v8Src);
@@ -175,10 +172,10 @@ const buildV8 = async (outPath, args) =>
 
 	LOG(`Copying ${path.resolve(paths.v8Src, outPath, "obj", "v8_monolith.lib")}...`);
 	const copyPath = resolve(paths.depLibs, os.platform(), args.target_cpu.replace(/"/g, ""), args.is_debug ? "Debug" : "Release", "v8_monolith.lib");
-	
+
 	if (fs.existsSync(copyPath))
 		fs.unlinkSync(copyPath);
-	
+
 	fs.copyFileSync(buildPath, copyPath);
 }
 
@@ -234,7 +231,8 @@ execFn(async () =>
 		use_custom_libcxx: false
 	};
 
-	process.env.PATH = [paths.depot_tools, ...process.env.PATH.split(";").filter(s => !!s)].join(";");
+	const pathSep = os.platform() == "win32" ? ";" : ":";
+	process.env.PATH = [paths.depot_tools, ...process.env.PATH.split(pathSep).filter(s => !!s)].join(pathSep);
 
 	mkdirp(paths.thirdParty);
 
@@ -246,10 +244,10 @@ execFn(async () =>
 	if (!fs.existsSync(paths.v8Src))
 		await fetchV8();
 
-	if(!fs.existsSync(paths.depInclude))
+	if (!fs.existsSync(paths.depInclude))
 		fs.mkdir(paths.depInclude);
 
-	if(!fs.existsSync(path.join(paths.depInclude, "v8")))
+	if (!fs.existsSync(path.join(paths.depInclude, "v8")))
 		fs.cpSync(path.join(paths.v8Src, "include"), path.join(paths.depInclude, "v8"), { recursive: true });
 
 	if (buildAll)
@@ -258,8 +256,8 @@ execFn(async () =>
 		args.target_cpu = `"x64"`;
 		args.v8_target_cpu = `"x64"`;
 		// Debug build
-		// args.is_debug = true;
-		// await buildV8(getV8OutPath(args), args);
+		args.is_debug = true;
+		await buildV8(getV8OutPath(args), args);
 		// Release build
 		args.is_debug = false;
 		await buildV8(getV8OutPath(args), args);
@@ -267,8 +265,8 @@ execFn(async () =>
 		args.target_cpu = `"x86"`;
 		args.v8_target_cpu = `"x86"`;
 		// Debug build
-		// args.is_debug = true;
-		// await buildV8(getV8OutPath(args), args);
+		args.is_debug = true;
+		await buildV8(getV8OutPath(args), args);
 		// Release build
 		args.is_debug = false;
 		await buildV8(getV8OutPath(args), args);
@@ -277,7 +275,7 @@ execFn(async () =>
 	{
 		await buildV8(v8OutPath, args);
 	}
-	
+
 	rl.removeAllListeners();
 	rl.close();
 });
