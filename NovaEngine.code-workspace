@@ -1,0 +1,39 @@
+{
+	"folders": [
+		{
+			"name": "project",
+			"path": "."
+		},
+		{
+			"name": "Engine",
+			"path": "./NovaEngine/"
+		},
+		{
+			"name": "Test Game",
+			"path": "./TestGame/"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"bochsrc": "plaintext",
+			"*.ld": "linkerscript",
+			"typeinfo": "cpp"
+		},
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/Thumbs.db": true,
+			"**/out": true,
+			"**/Release": true,
+			"**/Debug": true,
+			"**/x64": true,
+			"**/third_party": true,
+			"*.sln": true,
+			"*vcxproj*": true,
+			"Makefile": true
+		}
+	},
+}

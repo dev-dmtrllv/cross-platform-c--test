@@ -9,10 +9,13 @@
 
 #	ifdef NOVAENGINE_EXPORTS
 
+#		ifdef _WIN64
+#			define V8_COMPRESS_POINTERS 1
+#			define V8_31BIT_SMIS_ON_64BIT_ARCH 1
+#		endif
+
 #		define API extern "C" __declspec(dllexport)
 #		define API_CLASS(className) extern "C" class __declspec(dllexport) className
-#		define V8_COMPRESS_POINTERS 1
-#		define V8_31BIT_SMIS_ON_64BIT_ARCH 1
 #		pragma comment(lib, "winmm.lib")
 #		pragma comment(lib, "DbgHelp.lib")
 #		pragma comment(lib, "Shlwapi.lib")

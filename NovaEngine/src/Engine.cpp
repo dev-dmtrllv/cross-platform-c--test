@@ -35,9 +35,10 @@ NovaEngine::Engine::Engine(const char* cwd)
         v8::Local<v8::Value> result = script->Run(context).ToLocalChecked();
         // Convert the result to an UTF8 string and print it.
         v8::String::Utf8Value utf8(isolate, result);
-		// printf("%s", *utf8);
 		#ifdef _WIN32
     	MessageBoxA(NULL, *utf8, *utf8, MB_OK);
+		#else
+		printf("%s\n", *utf8);
 		#endif
 	}
 

@@ -4,9 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/NovaEngine/include",
-                "${workspaceFolder}/TestGame/include",
-				"${workspaceFolder}/packages/includes/v8"
+                "${workspaceFolder}/NovaEngine/include/**",
+                "${workspaceFolder}/TestGame/include/**",
+				"${workspaceFolder}/packages/includes/v8/**"
             ],
             "defines": [
 				"_WIN32",
@@ -25,9 +25,9 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/NovaEngine/include",
-                "${workspaceFolder}/TestGame/include",
-				"${workspaceFolder}/packages/includes/v8"
+                "${workspaceFolder}/NovaEngine/include/**",
+                "${workspaceFolder}/TestGame/include/**",
+				"${workspaceFolder}/packages/includes/v8/**"
             ],
             "defines": [
                 "_DEBUG",
