@@ -33,7 +33,13 @@
 			"**/third_party": true,
 			"*.sln": true,
 			"*vcxproj*": true,
-			"Makefile": true
+			"Makefile": true,
+			".vscode": true,
+			".vs": true,
+			"*.code-workspace": true,
+			"packages": true,
+			"scripts/node_modules": true,
+			"scripts/package-lock.json": true,
 		}
 	},
 }
