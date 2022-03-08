@@ -7,12 +7,6 @@ int entry(int argc, const char** argv)
 }
 
 #ifdef _WIN32
-#ifndef _USE_OLD_IOSTREAMS
-using namespace std;
-#endif
-// maximum mumber of lines the output console should have
-static const WORD MAX_CONSOLE_LINES = 500;
-
 void redirectIOToConsole()
 {
 	// allocate a console for this app

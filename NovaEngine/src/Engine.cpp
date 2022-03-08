@@ -2,6 +2,7 @@
 #include "pch.hpp"
 #include "Engine.hpp"
 #include <memory>
+#include "test.hpp"
 
 NovaEngine::Engine::Engine(const char* cwd)
 {
@@ -21,19 +22,12 @@ NovaEngine::Engine::Engine(const char* cwd)
     v8::Isolate* isolate = v8::Isolate::New(create_params);
     {
         v8::Isolate::Scope isolate_scope(isolate);
-        // Create a stack-allocated handle scope.
         v8::HandleScope handle_scope(isolate);
-        // Create a new context.
         v8::Local<v8::Context> context = v8::Context::New(isolate);
-        // Enter the context for compiling and running the hello world script.
         v8::Context::Scope context_scope(context);
-        // Create a string containing the JavaScript source code.
         v8::Local<v8::String> source = v8::String::NewFromUtf8(isolate, "'Hello' + ', World!'", v8::NewStringType::kNormal).ToLocalChecked();
-        // Compile the source code.
         v8::Local<v8::Script> script = v8::Script::Compile(context, source).ToLocalChecked();
-        // Run the script to get the result.
         v8::Local<v8::Value> result = script->Run(context).ToLocalChecked();
-        // Convert the result to an UTF8 string and print it.
         v8::String::Utf8Value utf8(isolate, result);
 		#ifdef _WIN32
     	MessageBoxA(NULL, *utf8, *utf8, MB_OK);
@@ -41,6 +35,28 @@ NovaEngine::Engine::Engine(const char* cwd)
 		printf("%s\n", *utf8);
 		#endif
 	}
+
+	#ifdef _WIN32
+	char buf[16] = {};
+	memset(buf, '\0', 16);
+    _itoa_s<16>(test(), buf, 10);
+	MessageBoxA(NULL, "", buf, MB_OK);
+	memset(buf, '\0', 16);
+    _itoa_s<16>(test(), buf, 10);
+	MessageBoxA(NULL, "", buf, MB_OK);
+	memset(buf, '\0', 16);
+    _itoa_s<16>(test(), buf, 10);
+	MessageBoxA(NULL, "", buf, MB_OK);
+	memset(buf, '\0', 16);
+    _itoa_s<16>(test(), buf, 10);
+	MessageBoxA(NULL, "", buf, MB_OK);
+	#else
+	printf("%i\n", test());
+	printf("%i\n", test());
+	printf("%i\n", test());
+	printf("%i\n", test());
+	#endif
+		
 
     // Dispose the isolate and tear down V8.
     isolate->Dispose();

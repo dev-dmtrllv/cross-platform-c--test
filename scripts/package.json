@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "unzipper": "^0.10.11"
+    "unzipper": "^0.10.11",
+    "xml2js": "^0.4.23"
   }
 }

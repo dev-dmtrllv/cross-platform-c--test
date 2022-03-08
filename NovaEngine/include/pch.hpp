@@ -28,7 +28,11 @@
 
 #	endif // NOVA_ENGINE_EXPORTS
 
-#else
+#elif __GNUC__
+#	if __x86_64__ || __ppc64__
+#		define V8_COMPRESS_POINTERS 1
+#		define V8_31BIT_SMIS_ON_64BIT_ARCH 1
+#	endif
 
 #	define API extern "C"
 #	define API_CLASS(className) extern "C" class className

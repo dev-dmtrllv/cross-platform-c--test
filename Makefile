@@ -17,8 +17,7 @@ export
 
 V8_OUT_LIBS = $(shell find $(V8_LINK_DIR) -name "*.a")
 
-test: 
-	echo $(V8_OUT_LIBS)
+all: test-game
 
 copy-libs: $(V8_COPIED_LIBS)
 	for so in $(V8_COPY_LIBS) ; do \

@@ -258,9 +258,11 @@ execFn(async () =>
 		args.v8_target_cpu = `"x64"`;
 		// Debug build
 		args.is_debug = true;
+		args.symbol_level = 2;
 		await buildV8(getV8OutPath(args), args);
 		// Release build
 		args.is_debug = false;
+		args.symbol_level = 0;
 		await buildV8(getV8OutPath(args), args);
 
 		if (os.platform() !== "linux") // Ubuntu 20.04 wont build x86 version for some reason...
@@ -270,9 +272,11 @@ execFn(async () =>
 			args.v8_target_cpu = `"x86"`;
 			// Debug build
 			args.is_debug = true;
+			args.symbol_level = 2;
 			await buildV8(getV8OutPath(args), args);
 			// Release build
 			args.is_debug = false;
+			args.symbol_level = 0;
 			await buildV8(getV8OutPath(args), args);
 		}
 	}
