@@ -49,10 +49,13 @@
 #include <fstream>
 
 #ifdef NOVAENGINE_EXPORTS
-
 // V8 includes
 #include <libplatform/libplatform.h>
 #include <v8.h>
+#endif
+
+#ifdef _ITERATOR_DEBUG_LEVEL
+
 #endif
 
 #endif //PCH_H
