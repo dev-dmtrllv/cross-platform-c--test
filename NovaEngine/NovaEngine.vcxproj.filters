@@ -20,9 +20,6 @@
     <ClInclude Include="include\NovaEngine.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="include\test.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\dllmain.cpp">
@@ -32,9 +29,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
